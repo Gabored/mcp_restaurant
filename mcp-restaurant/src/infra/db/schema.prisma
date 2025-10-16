@@ -1,0 +1,25 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Forecast {
+  id          Int      @id @default(autoincrement())
+  lat         Float
+  lon         Float
+  product     String
+  dateUtc     DateTime
+  weatherCode String
+  tempMin     Float
+  tempMax     Float
+  windMax     Float?
+  source      String   @default("7timer")
+  createdAt   DateTime @default(now())
+
+  @@unique([lat, lon, product, dateUtc])
+  @@index([lat, lon, product, dateUtc])
+}

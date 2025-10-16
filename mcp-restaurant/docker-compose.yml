@@ -1,0 +1,29 @@
+services:
+  app:
+    build: .
+    env_file: .env
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    networks:
+      - mcpnet
+
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: mcp_user
+      POSTGRES_PASSWORD: mcp_pass
+      POSTGRES_DB: mcp_weather
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"  # keep this if you run prisma CLI from the host
+    networks:
+      - mcpnet
+
+networks:
+  mcpnet:
+
+volumes:
+  pgdata:
